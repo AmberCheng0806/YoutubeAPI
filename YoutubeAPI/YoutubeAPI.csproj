@@ -33,6 +33,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CredentialManagement, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CredentialManagement.1.0.2\lib\net35\CredentialManagement.dll</HintPath>
+    </Reference>
+    <Reference Include="HTTP_Utility, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\HTTP_Utility\HTTP_Utility\bin\Debug\HTTP_Utility.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -43,11 +53,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Comment\CommentContext.cs" />
+    <Compile Include="Comment\Models\Comment.cs" />
+    <Compile Include="Comment\Models\CreateReplyComment.cs" />
+    <Compile Include="Comment\Models\CreateTopComment.cs" />
+    <Compile Include="PlayListItem\PlayListItemContext.cs" />
+    <Compile Include="PlayList\Models\PlayList.cs" />
+    <Compile Include="PlayListItem\Models\PlayListItem.cs" />
+    <Compile Include="PlayListItem\Models\CreatePlayListItem.cs" />
+    <Compile Include="PlayList\PlaylistContext.cs" />
+    <Compile Include="Search\Models\Search.cs" />
+    <Compile Include="Comment\Models\UpdateComment.cs" />
+    <Compile Include="Search\SearchContext.cs" />
+    <Compile Include="Token.cs" />
+    <Compile Include="util.cs" />
+    <Compile Include="Video\Models\CreateVideo.cs" />
+    <Compile Include="Video\Models\Video.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Video\VideoContext.cs" />
+    <Compile Include="YoutubeContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
