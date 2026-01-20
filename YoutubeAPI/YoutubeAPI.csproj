@@ -53,6 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Auth\Models\TokenModel.cs" />
     <Compile Include="Comment\CommentContext.cs" />
     <Compile Include="Comment\Models\Comment.cs" />
     <Compile Include="Comment\Models\CreateReplyComment.cs" />
@@ -65,8 +66,8 @@
     <Compile Include="Search\Models\Search.cs" />
     <Compile Include="Comment\Models\UpdateComment.cs" />
     <Compile Include="Search\SearchContext.cs" />
-    <Compile Include="Token.cs" />
-    <Compile Include="util.cs" />
+    <Compile Include="Auth\Token.cs" />
+    <Compile Include="Auth\util.cs" />
     <Compile Include="Video\Models\CreateVideo.cs" />
     <Compile Include="Video\Models\Video.cs" />
     <Compile Include="Program.cs" />
