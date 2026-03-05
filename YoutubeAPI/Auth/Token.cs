@@ -7,10 +7,11 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using YoutubeAPI.Auth.Models;
 
 namespace YoutubeAPI.Auth
 {
-    internal class Token
+    public class Token
     {
         private string RefreshToken;
         private string AccessToken;
@@ -52,6 +53,19 @@ namespace YoutubeAPI.Auth
             return AccessToken;
         }
 
+        public async Task<bool> IsValidScope()
+        {
+            string token = await GetAccessToken();
+            var tokenInfoModel = await HttpUtility.GetAsync<TokenInfoModel>("https://www.googleapis.com/oauth2/v3/tokeninfo", new Dictionary<string, string> { { "access_token", token } });
+            if (tokenInfoModel.scope.Split(' ').Length == 7) return true;
+            return false;
+        }
+
+        public async Task ReGetTokenByCode()
+        {
+            await GetTokenByCode();
+        }
+
         private async Task ExchangeAccessTokenByRefreshToken()
         {
             //var body = new Dictionary<string, string>
@@ -71,6 +85,11 @@ namespace YoutubeAPI.Auth
                 grant_type = "refresh_token"
             };
             AccessTokenModel tokenModel = await HttpUtility.PostAsync<AccessTokenModel>("https://oauth2.googleapis.com/token", input);
+            //if (!tokenModel.scope.Split(' ').Any(x => x.Contains("https://www.googleapis.com/auth")))
+            //{
+            //    await GetTokenByCode();
+            //    return;
+            //}
             AccessToken = tokenModel.access_token;
             //ExpireTime = DateTime.Now.AddSeconds(tokenModel.expires_in);
 
@@ -87,19 +106,18 @@ namespace YoutubeAPI.Auth
             util.GetCodeVerifier();
 
             var body = new Dictionary<string, string>
-            {
-                {"scope","https%3A//www.googleapis.com/auth/drive.metadata.readonly%20https%3A//www.googleapis.com/auth/calendar.readonly%20email%20profile%20https%3A//www.googleapis.com/auth/youtube.upload%20https%3A//www.googleapis.com/auth/youtube%20https%3A//www.googleapis.com/auth/youtubepartner%20https%3A//www.googleapis.com/auth/youtube.force-ssl" },
-                {"access_type","offline" },
-                {"prompt","consent" },
-                {"response_type","code" },
-                {"state","123" },
-                {"redirect_uri", "http://localhost:5000"},
-                {"client_id", ClientId },
-                {"code_challenge",util.GetCodeChallenge(util.CodeVerifier)},
-                {"code_challenge_method",util.challengeMethod }
-            };
-            //await HttpUtility.GetAsync("https://accounts.google.com/o/oauth2/v2/auth", body);
-
+                {
+                    {"scope","email%20profile%20https%3A//www.googleapis.com/auth/youtube.upload%20https%3A//www.googleapis.com/auth/youtube%20https%3A//www.googleapis.com/auth/youtubepartner%20https%3A//www.googleapis.com/auth/youtube.force-ssl" },
+                    {"access_type","offline" },
+                    {"prompt","consent" },
+                    {"response_type","code" },
+                    {"state","123" },
+                    {"redirect_uri", "http://localhost:5000"},
+                    {"client_id", ClientId },
+                    {"code_challenge",util.GetCodeChallenge(util.CodeVerifier)},
+                    {"code_challenge_method",util.challengeMethod }
+                };
+            await HttpUtility.GetAsync("https://accounts.google.com/o/oauth2/v2/auth", body);
 
             string fullUrl = "https://accounts.google.com/o/oauth2/v2/auth?" + string.Join("&", body.Select(x => $"{x.Key}={x.Value}"));
 
@@ -163,6 +181,11 @@ namespace YoutubeAPI.Auth
             };
 
             TokenModel tokenModel = await HttpUtility.PostAsync<TokenModel>("https://oauth2.googleapis.com/token", input);
+            //if (!tokenModel.scope.Split(' ').Any(x => x.Contains("https://www.googleapis.com/auth")))
+            //{
+            //    await GetTokenByCode();
+            //    return;
+            //}
             AccessToken = tokenModel.access_token;
             RefreshToken = tokenModel.refresh_token;
             //ExpireTime = DateTime.Now.AddSeconds(tokenModel.expires_in);

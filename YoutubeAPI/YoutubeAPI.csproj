@@ -53,7 +53,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Auth\Models\TokenInfoModel.cs" />
     <Compile Include="Auth\Models\TokenModel.cs" />
+    <Compile Include="Channel\ChannelContext.cs" />
+    <Compile Include="Channel\Models\Channel.cs" />
     <Compile Include="Comment\CommentContext.cs" />
     <Compile Include="Comment\Models\Comment.cs" />
     <Compile Include="Comment\Models\CreateReplyComment.cs" />
@@ -72,6 +75,7 @@
     <Compile Include="Video\Models\Video.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Video\Models\VideoStatistic.cs" />
     <Compile Include="Video\VideoContext.cs" />
     <Compile Include="YoutubeContext.cs" />
   </ItemGroup>

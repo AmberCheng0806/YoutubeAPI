@@ -33,6 +33,16 @@ namespace YoutubeAPI.Video
             );
         }
 
+        public async Task<Models.VideoStatistic> GetByVideoIdAsync(string videoId)
+        {
+            var query = new Dictionary<string, string>
+                {
+                    {"part","statistics,snippet" },
+                    {"id", videoId}
+                };
+            return await HttpUtility.GetAsync<Models.VideoStatistic>("videos", query);
+        }
+
         public async Task<Models.CreateVideo> CreateAsync(string title, string url, string status = "public")
         {
             //string location = await GetLocation(title);

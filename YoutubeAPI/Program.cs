@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using CredentialManagement;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,6 +8,8 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using YoutubeAPI.Auth;
+using YoutubeAPI.Auth.Models;
 using YoutubeAPI.PlayList;
 using YoutubeAPI.Video;
 using YoutubeAPI.Video.Models;
@@ -17,10 +20,14 @@ namespace YoutubeAPI
     {
         static async Task Main(string[] args)
         {
+            //Token token = new Token();
+            //var result = await token.GetAccessToken();
 
             YoutubeContext youtube = new YoutubeContext();
+            VideoStatistic videoStatistic = await youtube.Video.GetByVideoIdAsync("GoFQ6SCXDHo");
+            Channel.Models.Channel channel = await youtube.Channel.GetByChannelIdAsync(videoStatistic.items[0].snippet.channelId);
             // PlayList playlist = await youtube.playlist.GetAllAsync("UCYOiDSVjnTdspnZjvEK4R5Q");
-            YoutubeAPI.PlayList.Models.PlayList playlist2 = await youtube.Playlist.CreateAsync("new", "456", "private");
+            //YoutubeAPI.PlayList.Models.PlayList playlist2 = await youtube.Playlist.CreateAsync("new", "456", "private");
             //PlayList playlist3 = await youtube.playlist.PutAsync("PLp_06BT3mn3jZVMZV_Jf4KaQiK7ZmsQxp", "my playlist", "123");
             //string playlist4 = await youtube.playlist.DeleteAsync("PLp_06BT3mn3idDoRC-qrmHRP1luqhZIDw");
             //Comment comment = await youtube.comment.GetCommentByVideoIdAsync("3lZYvVRCWO0");

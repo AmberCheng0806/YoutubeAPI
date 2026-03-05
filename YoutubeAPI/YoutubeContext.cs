@@ -8,14 +8,13 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using YoutubeAPI.Auth;
+using YoutubeAPI.Channel;
 using YoutubeAPI.Comment;
 using YoutubeAPI.PlayList;
 using YoutubeAPI.PlayList.Models;
 using YoutubeAPI.PlayListItem;
 using YoutubeAPI.Search;
 using YoutubeAPI.Video;
-using static System.Net.WebRequestMethods;
-using Playlist = YoutubeAPI.PlayList.Models.PlayList;
 namespace YoutubeAPI
 {
     public class YoutubeContext
@@ -25,6 +24,7 @@ namespace YoutubeAPI
         public CommentContext Comment { get; set; }
         public SearchContext Search { get; set; }
         public VideoContext Video { get; set; }
+        public ChannelContext Channel { get; set; }
         private HttpUtility httpUtility { get; set; }
         private Token Token = new Token();
         private Interceptor interceptor = new Interceptor();
@@ -48,6 +48,7 @@ namespace YoutubeAPI
             Comment = new CommentContext(httpUtility);
             Search = new SearchContext(httpUtility);
             Video = new VideoContext(httpUtility);
+            Channel = new ChannelContext(httpUtility);
         }
     }
 }
