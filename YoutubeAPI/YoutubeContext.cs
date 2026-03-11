@@ -14,6 +14,7 @@ using YoutubeAPI.PlayList;
 using YoutubeAPI.PlayList.Models;
 using YoutubeAPI.PlayListItem;
 using YoutubeAPI.Search;
+using YoutubeAPI.Subscription;
 using YoutubeAPI.Video;
 namespace YoutubeAPI
 {
@@ -25,6 +26,7 @@ namespace YoutubeAPI
         public SearchContext Search { get; set; }
         public VideoContext Video { get; set; }
         public ChannelContext Channel { get; set; }
+        public SubscriptionContext Subscription { get; set; }
         private HttpUtility httpUtility { get; set; }
         private Token Token = new Token();
         private Interceptor interceptor = new Interceptor();
@@ -49,6 +51,7 @@ namespace YoutubeAPI
             Search = new SearchContext(httpUtility);
             Video = new VideoContext(httpUtility);
             Channel = new ChannelContext(httpUtility);
+            Subscription = new SubscriptionContext(httpUtility);
         }
     }
 }

@@ -71,8 +71,11 @@
     <Compile Include="Search\SearchContext.cs" />
     <Compile Include="Auth\Token.cs" />
     <Compile Include="Auth\util.cs" />
+    <Compile Include="Subscription\Models\CreateSubscription.cs" />
+    <Compile Include="Subscription\Models\Subscription.cs" />
+    <Compile Include="Subscription\SubscriptionContext.cs" />
     <Compile Include="Video\Models\CreateVideo.cs" />
-    <Compile Include="Video\Models\Video.cs" />
+    <Compile Include="Video\Models\Rate.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Video\Models\VideoStatistic.cs" />

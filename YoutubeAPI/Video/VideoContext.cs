@@ -22,9 +22,18 @@ namespace YoutubeAPI.Video
             HttpUtility = httpUtility;
         }
 
-        public async Task<Models.Video> RateAsync(string id, string rating)
+        public async Task<Models.Rate> GetRateAsync(string id)
         {
-            return await HttpUtility.PostAsync<Models.Video>("videos/rate",
+            return await HttpUtility.GetAsync<Models.Rate>("videos/getRating",
+                new Dictionary<string, string>()
+            {
+                    {"id",id}
+            }
+            );
+        }
+        public async Task RateAsync(string id, string rating)
+        {
+            await HttpUtility.PostAsync("videos/rate",
                 new Dictionary<string, string>()
             {
                     {"id",id},
