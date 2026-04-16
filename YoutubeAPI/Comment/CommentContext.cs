@@ -16,9 +16,9 @@ namespace YoutubeAPI.Comment
         {
             HttpUtility = httpUtility;
         }
-        public async Task<Models.Comment> GetCommentByVideoIdAsync(string videoId, int maxResults = 50, string order = "relevance")
+        public async Task<Models.CommentByVideoId> GetCommentByVideoIdAsync(string videoId, int maxResults = 50, string order = "relevance")
         {
-            return await HttpUtility.GetAsync<Models.Comment>("commentThreads", new Dictionary<string, string>()
+            return await HttpUtility.GetAsync<Models.CommentByVideoId>("commentThreads", new Dictionary<string, string>()
                 {
                     {"part",part },
                     {"videoId",videoId },
@@ -27,9 +27,9 @@ namespace YoutubeAPI.Comment
             });
         }
 
-        public async Task<Models.Comment> GetCommentByCommentIdAsync(string id)
+        public async Task<Models.CommentByCommentId> GetCommentByCommentIdAsync(string id)
         {
-            return await HttpUtility.GetAsync<Models.Comment>("commentThreads", new Dictionary<string, string>()
+            return await HttpUtility.GetAsync<Models.CommentByCommentId>("commentThreads", new Dictionary<string, string>()
                 {
                     {"part",part },
                     {"id",id }
@@ -44,13 +44,12 @@ namespace YoutubeAPI.Comment
                     {"maxResults", maxResults.ToString() }
                 });
         }
-        public async Task<Models.CreateTopComment> CreateCommentByVideoIdAsync(string videoId, string channelId, string content)
+        public async Task<Models.CreateTopComment> CreateCommentByVideoIdAsync(string videoId, string content)
         {
             return await HttpUtility.PostAsync<Models.CreateTopComment>("commentThreads", new
             {
                 snippet = new
                 {
-                    channelId = channelId,
                     topLevelComment = new
                     {
                         snippet = new
@@ -79,7 +78,7 @@ namespace YoutubeAPI.Comment
                     {"part",part }
                 });
         }
-        public async Task<Models.UpdateComment> UpdateCommentByParentIdAsync(string id, string content)
+        public async Task<Models.UpdateComment> UpdateCommentByCommentIdAsync(string id, string content)
         {
             return await HttpUtility.PutAsync<Models.UpdateComment>("comments", new
             {
