@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace YoutubeAPI.Comment.Models
 {
-    public class Comment
+    public class CommentByVideoId
     {
-
         public string kind { get; set; }
         public string etag { get; set; }
         public Pageinfo pageInfo { get; set; }
@@ -17,6 +16,7 @@ namespace YoutubeAPI.Comment.Models
 
         public class Pageinfo
         {
+            public int totalResults { get; set; }
             public int resultsPerPage { get; set; }
         }
 
@@ -31,9 +31,27 @@ namespace YoutubeAPI.Comment.Models
         public class Snippet
         {
             public string channelId { get; set; }
+            public string videoId { get; set; }
+            public Toplevelcomment topLevelComment { get; set; }
+            public bool canReply { get; set; }
+            public int totalReplyCount { get; set; }
+            public bool isPublic { get; set; }
+        }
+
+        public class Toplevelcomment
+        {
+            public string kind { get; set; }
+            public string etag { get; set; }
+            public string id { get; set; }
+            public Snippet1 snippet { get; set; }
+        }
+
+        public class Snippet1
+        {
+            public string channelId { get; set; }
+            public string videoId { get; set; }
             public string textDisplay { get; set; }
             public string textOriginal { get; set; }
-            public string parentId { get; set; }
             public string authorDisplayName { get; set; }
             public string authorProfileImageUrl { get; set; }
             public string authorChannelUrl { get; set; }

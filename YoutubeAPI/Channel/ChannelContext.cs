@@ -26,5 +26,15 @@ namespace YoutubeAPI.Channel
                 };
             return await HttpUtility.GetAsync<Models.Channel>("channels", query);
         }
+
+        public async Task<Models.Channel> GetMyChannelAsync()
+        {
+            var query = new Dictionary<string, string>
+                {
+                    {"part",part },
+                    {"mine", "true"}
+                };
+            return await HttpUtility.GetAsync<Models.Channel>("channels", query);
+        }
     }
 }

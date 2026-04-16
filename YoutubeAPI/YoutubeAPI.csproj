@@ -59,9 +59,12 @@
     <Compile Include="Channel\Models\Channel.cs" />
     <Compile Include="Comment\CommentContext.cs" />
     <Compile Include="Comment\Models\Comment.cs" />
+    <Compile Include="Comment\Models\CommentByCommentId.cs" />
+    <Compile Include="Comment\Models\CommentByVideoId.cs" />
     <Compile Include="Comment\Models\CreateReplyComment.cs" />
     <Compile Include="Comment\Models\CreateTopComment.cs" />
     <Compile Include="PlayListItem\PlayListItemContext.cs" />
+    <Compile Include="PlayList\Models\CreatePlaylist.cs" />
     <Compile Include="PlayList\Models\PlayList.cs" />
     <Compile Include="PlayListItem\Models\PlayListItem.cs" />
     <Compile Include="PlayListItem\Models\CreatePlayListItem.cs" />

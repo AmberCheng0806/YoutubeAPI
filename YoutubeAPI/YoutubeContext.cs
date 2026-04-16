@@ -40,9 +40,6 @@ namespace YoutubeAPI
                 request.Headers.Add("Authorization", $"Bearer {accessToken}");
             };
             httpUtility = new HttpUtility(false, interceptor);
-
-
-
             httpUtility.BaseUrl = "https://www.googleapis.com/youtube/v3/";
 
             Playlist = new PlaylistContext(httpUtility);

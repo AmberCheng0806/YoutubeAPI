@@ -15,18 +15,18 @@ namespace YoutubeAPI.PlayList
         {
             HttpUtility = httpUtility;
         }
-        public async Task<PlayList.Models.PlayList> GetAllAsync(string channelId)
+        public async Task<PlayList.Models.PlayList> GetAllAsync()
         {
             return await HttpUtility.GetAsync<PlayList.Models.PlayList>("playlists", new Dictionary<string, string>()
                 {
                     {"part",part },
-                    {"channelId",channelId }
+                    {"mine","true" }
                 });
         }
 
-        public async Task<PlayList.Models.PlayList> CreateAsync(string title, string description = null, string status = "public")
+        public async Task<PlayList.Models.CreatePlaylist> CreateAsync(string title, string status = "public", string description = null)
         {
-            return await HttpUtility.PostAsync<PlayList.Models.PlayList>("playlists", new
+            return await HttpUtility.PostAsync<PlayList.Models.CreatePlaylist>("playlists", new
             {
                 snippet = new
                 {
