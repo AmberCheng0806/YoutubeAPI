@@ -16,6 +16,7 @@ namespace YoutubeAPI.Auth
         private string RefreshToken;
         private string AccessToken;
         private DateTime ExpireTime;
+        private DateTime RefreshTokenExpireTime;
         private string ClientId;
         private string ClientSecret;
         private HttpUtility HttpUtility = new HttpUtility();
@@ -35,8 +36,7 @@ namespace YoutubeAPI.Auth
                 ClientSecret = passwords[1];
                 AccessToken = passwords[2];
                 RefreshToken = passwords[3];
-                //ExpireTime = passwords[4] == "expireTime" ? DateTime.Now : DateTime.Parse(passwords[2]);
-                ExpireTime = new DateTime(2026, 1, 12, 12, 0, 0);
+                ExpireTime = passwords[4] == "expireTime" ? DateTime.Now : DateTime.Parse(passwords[4]);
             }
         }
 
@@ -57,7 +57,7 @@ namespace YoutubeAPI.Auth
         {
             string token = await GetAccessToken();
             var tokenInfoModel = await HttpUtility.GetAsync<TokenInfoModel>("https://www.googleapis.com/oauth2/v3/tokeninfo", new Dictionary<string, string> { { "access_token", token } });
-            if (tokenInfoModel.scope.Split(' ').Length == 7) return true;
+            if (tokenInfoModel.scope.Split(' ').Length == 9) return true;
             return false;
         }
 
@@ -68,14 +68,11 @@ namespace YoutubeAPI.Auth
 
         private async Task ExchangeAccessTokenByRefreshToken()
         {
-            //var body = new Dictionary<string, string>
-            //{
-            //    { "client_id", ClientId },
-            //    { "client_secret", ClientSecret },
-            //    { "refresh_token", RefreshToken },
-            //    { "grant_type", "refresh_token" }
-            //};
-            //var input = new FormUrlEncodedContent(body);
+
+            if (DateTime.Now > RefreshTokenExpireTime)
+            {
+                await GetTokenByCode();
+            }
 
             var input = new
             {
@@ -85,13 +82,8 @@ namespace YoutubeAPI.Auth
                 grant_type = "refresh_token"
             };
             AccessTokenModel tokenModel = await HttpUtility.PostAsync<AccessTokenModel>("https://oauth2.googleapis.com/token", input);
-            //if (!tokenModel.scope.Split(' ').Any(x => x.Contains("https://www.googleapis.com/auth")))
-            //{
-            //    await GetTokenByCode();
-            //    return;
-            //}
             AccessToken = tokenModel.access_token;
-            //ExpireTime = DateTime.Now.AddSeconds(tokenModel.expires_in);
+            ExpireTime = DateTime.Now.AddSeconds(tokenModel.expires_in);
 
             Credential credential = new Credential();
             credential.Target = "YoutubeCredential";
@@ -107,7 +99,7 @@ namespace YoutubeAPI.Auth
 
             var body = new Dictionary<string, string>
                 {
-                    {"scope","email%20profile%20https%3A//www.googleapis.com/auth/youtube.upload%20https%3A//www.googleapis.com/auth/youtube%20https%3A//www.googleapis.com/auth/youtubepartner%20https%3A//www.googleapis.com/auth/youtube.force-ssl" },
+                    {"scope","https://www.googleapis.com/auth/userinfo.email%20https://www.googleapis.com/auth/userinfo.profile%20https%3A//www.googleapis.com/auth/youtube.upload%20https%3A//www.googleapis.com/auth/youtube%20https%3A//www.googleapis.com/auth/youtubepartner%20https%3A//www.googleapis.com/auth/youtube.force-ssl" },
                     {"access_type","offline" },
                     {"prompt","consent" },
                     {"response_type","code" },
@@ -159,16 +151,6 @@ namespace YoutubeAPI.Auth
         private async Task GetTokenByCode()
         {
             string code = await GetCode();
-            //var body = new Dictionary<string, string>
-            //{
-            //    { "code", code },
-            //    { "client_id", ClientId },
-            //    { "client_secret", ClientSecret },
-            //    { "redirect_uri", "http://localhost:5000" },
-            //    { "grant_type", "authorization_code" },
-            //    { "code_verifier", util.CodeVerifier }
-            //};
-            //var input = new FormUrlEncodedContent(body);
 
             var input = new
             {
@@ -181,14 +163,10 @@ namespace YoutubeAPI.Auth
             };
 
             TokenModel tokenModel = await HttpUtility.PostAsync<TokenModel>("https://oauth2.googleapis.com/token", input);
-            //if (!tokenModel.scope.Split(' ').Any(x => x.Contains("https://www.googleapis.com/auth")))
-            //{
-            //    await GetTokenByCode();
-            //    return;
-            //}
             AccessToken = tokenModel.access_token;
             RefreshToken = tokenModel.refresh_token;
-            //ExpireTime = DateTime.Now.AddSeconds(tokenModel.expires_in);
+            ExpireTime = DateTime.Now.AddSeconds(tokenModel.expires_in);
+            RefreshTokenExpireTime = DateTime.Now.AddSeconds(tokenModel.refresh_token_expires_in);
 
             Credential credential = new Credential();
             credential.Target = "YoutubeCredential";
