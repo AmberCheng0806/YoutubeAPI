@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using YoutubeAPI.Channel.Models;
 
 namespace YoutubeAPI.Search
 {
@@ -38,6 +39,19 @@ namespace YoutubeAPI.Search
                 if (videoCategoryId > 0)
                     query.Add("videoCategoryId", videoCategoryId.ToString());
             }
+            return await HttpUtility.GetAsync<Models.Search>("search", query);
+        }
+
+        public async Task<Models.Search> GetMyVideos(int maxResults = 50, string order = "relevance", string type = "video")
+        {
+            var query = new Dictionary<string, string>
+                {
+                    {"part",part },
+                    {"maxResults",maxResults.ToString()},
+                    {"order",order},
+                    {"type", type },
+                    {"forMine","true" }
+                };
             return await HttpUtility.GetAsync<Models.Search>("search", query);
         }
     }
