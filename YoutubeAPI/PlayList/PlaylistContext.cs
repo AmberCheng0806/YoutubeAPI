@@ -19,7 +19,7 @@ namespace YoutubeAPI.PlayList
         {
             return await HttpUtility.GetAsync<PlayList.Models.PlayList>("playlists", new Dictionary<string, string>()
                 {
-                    {"part",part },
+                    {"part","snippet,contentDetails,status" },
                     {"mine","true" }
                 });
         }

@@ -10,9 +10,9 @@ namespace YoutubeAPI.PlayList.Models
     {
         public string kind { get; set; }
         public string etag { get; set; }
+        public string nextPageToken { get; set; }
         public Pageinfo pageInfo { get; set; }
         public Item[] items { get; set; }
-
 
         public class Pageinfo
         {
@@ -26,6 +26,8 @@ namespace YoutubeAPI.PlayList.Models
             public string etag { get; set; }
             public string id { get; set; }
             public Snippet snippet { get; set; }
+            public Status status { get; set; }
+            public Contentdetails contentDetails { get; set; }
         }
 
         public class Snippet
@@ -44,6 +46,8 @@ namespace YoutubeAPI.PlayList.Models
             public Default _default { get; set; }
             public Medium medium { get; set; }
             public High high { get; set; }
+            public Standard standard { get; set; }
+            public Maxres maxres { get; set; }
         }
 
         public class Default
@@ -67,11 +71,36 @@ namespace YoutubeAPI.PlayList.Models
             public int height { get; set; }
         }
 
+        public class Standard
+        {
+            public string url { get; set; }
+            public int width { get; set; }
+            public int height { get; set; }
+        }
+
+        public class Maxres
+        {
+            public string url { get; set; }
+            public int width { get; set; }
+            public int height { get; set; }
+        }
+
         public class Localized
         {
             public string title { get; set; }
             public string description { get; set; }
         }
+
+        public class Status
+        {
+            public string privacyStatus { get; set; }
+        }
+
+        public class Contentdetails
+        {
+            public int itemCount { get; set; }
+        }
+
 
     }
 }
