@@ -46,7 +46,7 @@ namespace YoutubeAPI.Video
         {
             var query = new Dictionary<string, string>
                 {
-                    {"part","statistics,snippet" },
+                    {"part","statistics,snippet,status" },
                     {"id", videoId}
                 };
             return await HttpUtility.GetAsync<Models.VideoStatistic>("videos", query);

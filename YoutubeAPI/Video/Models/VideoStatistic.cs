@@ -25,6 +25,7 @@ namespace YoutubeAPI.Video.Models
             public string etag { get; set; }
             public string id { get; set; }
             public Snippet snippet { get; set; }
+            public Status status { get; set; }
             public Statistics statistics { get; set; }
         }
 
@@ -41,7 +42,6 @@ namespace YoutubeAPI.Video.Models
             public string defaultLanguage { get; set; }
             public Localized localized { get; set; }
             public string defaultAudioLanguage { get; set; }
-            public string[] tags { get; set; }
         }
 
         public class Thumbnails
@@ -94,13 +94,26 @@ namespace YoutubeAPI.Video.Models
             public string description { get; set; }
         }
 
+        public class Status
+        {
+            public string uploadStatus { get; set; }
+            public string privacyStatus { get; set; }
+            public string license { get; set; }
+            public bool embeddable { get; set; }
+            public bool publicStatsViewable { get; set; }
+            public bool madeForKids { get; set; }
+            public bool selfDeclaredMadeForKids { get; set; }
+        }
+
         public class Statistics
         {
             public string viewCount { get; set; }
             public string likeCount { get; set; }
+            public string dislikeCount { get; set; }
             public string favoriteCount { get; set; }
             public string commentCount { get; set; }
         }
+
 
 
     }
