@@ -37,6 +37,7 @@ namespace YoutubeAPI.Auth
                 AccessToken = passwords[2];
                 RefreshToken = passwords[3];
                 ExpireTime = passwords[4] == "expireTime" ? DateTime.Now : DateTime.Parse(passwords[4]);
+                RefreshTokenExpireTime = passwords[5] == "refreshTokenExpireTime" ? DateTime.Now : DateTime.Parse(passwords[5]);
             }
         }
 
@@ -84,11 +85,12 @@ namespace YoutubeAPI.Auth
             AccessTokenModel tokenModel = await HttpUtility.PostAsync<AccessTokenModel>("https://oauth2.googleapis.com/token", input);
             AccessToken = tokenModel.access_token;
             ExpireTime = DateTime.Now.AddSeconds(tokenModel.expires_in);
+            RefreshTokenExpireTime = DateTime.Now.AddSeconds(tokenModel.refresh_token_expires_in);
 
             Credential credential = new Credential();
             credential.Target = "YoutubeCredential";
             credential.Username = "chi";
-            credential.Password = $"{ClientId}|{ClientSecret}|{tokenModel.access_token}|{RefreshToken}|{DateTime.Now.AddSeconds(tokenModel.expires_in)}";
+            credential.Password = $"{ClientId}|{ClientSecret}|{AccessToken}|{RefreshToken}|{ExpireTime}|{RefreshTokenExpireTime}";
             credential.Save();
         }
 
@@ -171,7 +173,7 @@ namespace YoutubeAPI.Auth
             Credential credential = new Credential();
             credential.Target = "YoutubeCredential";
             credential.Username = "chi";
-            credential.Password = $"{ClientId}|{ClientSecret}|{tokenModel.access_token}|{tokenModel.refresh_token}|{DateTime.Now.AddSeconds(tokenModel.expires_in)}";
+            credential.Password = $"{ClientId}|{ClientSecret}|{AccessToken}|{RefreshToken}|{ExpireTime}|{RefreshTokenExpireTime}";
             credential.Save();
         }
     }
