@@ -119,5 +119,37 @@ namespace YoutubeAPI.Video
         //    var response = await client.PostAsync(url, content);
         //    return response.Headers.Location.ToString();
         //}
+
+        public async Task DeleteAsync(string VideoId)
+        {
+            await HttpUtility.DeleteAsync("videos",
+                new Dictionary<string, string>()
+            {
+                {"id",VideoId}
+            }
+            );
+        }
+        public async Task<Video.Models.UpdateVideo> UpdateAsync(string id, string title, string categoryId, string description = null, string status = "public")
+        {
+            return await HttpUtility.PutAsync<Video.Models.UpdateVideo>("videos", new
+            {
+                id = id,
+                snippet = new
+                {
+                    title = title,
+                    description = description,
+                    categoryId = categoryId
+                },
+                status = new
+                {
+                    privacyStatus = status
+                }
+            },
+                new Dictionary<string, string>()
+            {
+                {"part",part+",status"  }
+            }
+            );
+        }
     }
 }
