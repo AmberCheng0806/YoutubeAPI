@@ -52,18 +52,8 @@ namespace YoutubeAPI.Video
             return await HttpUtility.GetAsync<Models.VideoStatistic>("videos", query);
         }
 
-        public async Task<Models.CreateVideo> CreateAsync(string title, string url, string status = "public")
+        public async Task<Models.CreateVideo> CreateAsync(string title, string description, string url, string status = "public")
         {
-            //string location = await GetLocation(title);
-            //var fileStream = new FileStream(url, FileMode.Open, FileAccess.Read);
-            //StreamContent streamContent = new StreamContent(fileStream);
-            //streamContent.Headers.ContentType = new MediaTypeHeaderValue("video/mp4");
-            //streamContent.Headers.ContentLength = fileStream.Length;
-            //streamContent.Headers.Add(
-            //"Content-Range",
-            //    $"bytes 0-{fileStream.Length - 1}/{fileStream.Length}"
-            //);
-            //return await HttpUtility.PutAsync<Models.CreateVideo>(location, streamContent);
             var fileStream = new FileStream(url, FileMode.Open, FileAccess.Read);
             StreamContent streamContent = new StreamContent(fileStream);
             streamContent.Headers.ContentType = new MediaTypeHeaderValue("video/mp4");
@@ -72,11 +62,13 @@ namespace YoutubeAPI.Video
             {
                 snippet = new
                 {
-                    title = title
+                    title = title,
+                    description = description
                 },
                 status = new
                 {
-                    privacyStatus = status
+                    privacyStatus = status,
+                    embeddable = true
                 }
             };
             var json = JsonConvert.SerializeObject(body);
@@ -93,32 +85,6 @@ namespace YoutubeAPI.Video
             });
             return response;
         }
-
-        //public async Task<Models.CreateVideo> CreateAsync(string title, Stream stream)
-        //{
-        //    string location = await GetLocation(title);
-        //    StreamContent streamContent = new StreamContent(stream);
-        //    streamContent.Headers.ContentType = new MediaTypeHeaderValue("video/mp4");
-        //    return await HttpUtility.PutAsync<Models.CreateVideo>(location, streamContent);
-        //}
-
-        //private async Task<string> GetLocation(string title)
-        //{
-        //    var client = new HttpClient();
-        //    string url = "https://www.googleapis.com/upload/youtube/v3/videos?part=snippet&uploadType=resumable&Content-Type=application/json&x-upload-content-type=application/octet-stream";
-        //    client.DefaultRequestHeaders.Add("Authorization", $"Bearer {HttpUtility.Token}");
-        //    var body = new
-        //    {
-        //        snippet = new
-        //        {
-        //            title = title
-        //        }
-        //    };
-        //    var json = JsonConvert.SerializeObject(body);
-        //    var content = new StringContent(json, Encoding.UTF8, "application/json");
-        //    var response = await client.PostAsync(url, content);
-        //    return response.Headers.Location.ToString();
-        //}
 
         public async Task DeleteAsync(string VideoId)
         {
