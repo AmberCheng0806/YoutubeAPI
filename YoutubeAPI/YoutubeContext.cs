@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using YoutubeAPI.Auth;
 using YoutubeAPI.Channel;
 using YoutubeAPI.Comment;
+using YoutubeAPI.Interfaces;
 using YoutubeAPI.PlayList;
 using YoutubeAPI.PlayList.Models;
 using YoutubeAPI.PlayListItem;
@@ -18,7 +19,7 @@ using YoutubeAPI.Subscription;
 using YoutubeAPI.Video;
 namespace YoutubeAPI
 {
-    public class YoutubeContext
+    public class YoutubeContext : IYoutubeContext
     {
         public PlaylistContext Playlist { get; set; }
         public PlayListItemContext PlayListItem { get; set; }
@@ -34,7 +35,7 @@ namespace YoutubeAPI
 
         public YoutubeContext()
         {
-            interceptor.Func = async request =>
+            interceptor.RequestHandlerAsync = async request =>
             {
                 var accessToken = await Token.GetAccessToken();
                 request.Headers.Add("Authorization", $"Bearer {accessToken}");
